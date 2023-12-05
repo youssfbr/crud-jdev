@@ -2,6 +2,7 @@ package com.github.youssfbr.crud.controllers;
 
 import com.github.youssfbr.crud.dtos.UserCreateRequestDTO;
 import com.github.youssfbr.crud.dtos.UserResponseDTO;
+import com.github.youssfbr.crud.dtos.UserUpdateRequestDTO;
 import com.github.youssfbr.crud.services.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,11 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).body(userCreated);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserResponseDTO> userUpdate(@RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+        return ResponseEntity.ok(userService.userUpdate(userUpdateRequestDTO));
     }
 
     @DeleteMapping("/{id}")

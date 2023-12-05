@@ -2,11 +2,13 @@ package com.github.youssfbr.crud.services.impl;
 
 import com.github.youssfbr.crud.dtos.UserCreateRequestDTO;
 import com.github.youssfbr.crud.dtos.UserResponseDTO;
+import com.github.youssfbr.crud.dtos.UserUpdateRequestDTO;
 import com.github.youssfbr.crud.entities.User;
 import com.github.youssfbr.crud.repositories.IUserRepository;
 import com.github.youssfbr.crud.services.IUserService;
 import com.github.youssfbr.crud.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,12 +48,24 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
+    public UserResponseDTO userUpdate(UserUpdateRequestDTO userUpdateRequestDTO) {
+
+        final User userToUpdate = checkExistsUser(userUpdateRequestDTO.getId());
+        BeanUtils.copyProperties(userUpdateRequestDTO, userToUpdate);
+
+        final User userUpdated = userRepository.save(userToUpdate);
+
+        return new UserResponseDTO(userUpdated);
+    }
+
+    @Override
+    @Transactional
     public void delete(Long id) {
-        existsUser(id);
+        checkExistsUser(id);
         userRepository.deleteById(id);
     }
 
-    private User existsUser(Long id) {
+    private User checkExistsUser(Long id) {
         return userRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
     }
