@@ -5,6 +5,7 @@ import com.github.youssfbr.crud.dtos.UserResponseDTO;
 import com.github.youssfbr.crud.entities.User;
 import com.github.youssfbr.crud.repositories.IUserRepository;
 import com.github.youssfbr.crud.services.IUserService;
+import com.github.youssfbr.crud.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
+    private static final String NOT_FOUND_MESSAGE = "Resource not found with id ";
 
     @Override
     @Transactional(readOnly = true)
@@ -24,6 +26,14 @@ public class UserService implements IUserService {
                 .stream()
                 .map(UserResponseDTO::new)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDTO findUserById(Long id) {
+        return userRepository.findById(id)
+                .map(UserResponseDTO::new)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
     }
 
     @Override

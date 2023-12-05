@@ -21,6 +21,12 @@ public class UserController {
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findUserById(id));
+    }
+
     @PostMapping
     public ResponseEntity<UserResponseDTO> userCreate(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
 

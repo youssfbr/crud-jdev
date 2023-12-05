@@ -8,5 +8,7 @@ import java.util.List;
 public interface IUserService {
 
     List<UserResponseDTO> getAllUsers();
+    UserResponseDTO findUserById(Long id);
     UserResponseDTO userCreate(UserCreateRequestDTO userCreateRequestDTO);
+
 }
