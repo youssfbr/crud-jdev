@@ -39,6 +39,15 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> findByName(String name) {
+        return userRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(UserResponseDTO::new)
+                .toList();
+    }
+
+    @Override
     @Transactional
     public UserResponseDTO userCreate(UserCreateRequestDTO userCreateRequestDTO) {
         final User userToCreate = new User(userCreateRequestDTO);

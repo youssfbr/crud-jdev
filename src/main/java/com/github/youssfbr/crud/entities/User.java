@@ -7,10 +7,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
 @NoArgsConstructor
+@Table(name = "tb_user")
 @EqualsAndHashCode(of = "id")
-@Entity(name = "tb_user")
-
 public class User {
 
     @Id

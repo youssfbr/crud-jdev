@@ -29,6 +29,11 @@ public class UserController {
         return ResponseEntity.ok(userService.findUserById(id));
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<UserResponseDTO>> findByName(@PathVariable String name) {
+        return ResponseEntity.ok(userService.findByName(name.trim()));
+    }
+
     @PostMapping
     public ResponseEntity<UserResponseDTO> userCreate(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
 
