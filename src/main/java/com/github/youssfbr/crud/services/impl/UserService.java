@@ -43,4 +43,16 @@ public class UserService implements IUserService {
         final User userCreated = userRepository.save(userToCreate);
         return new UserResponseDTO(userCreated);
     }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        existsUser(id);
+        userRepository.deleteById(id);
+    }
+
+    private User existsUser(Long id) {
+        return userRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
+    }
 }

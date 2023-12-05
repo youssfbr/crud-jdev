@@ -4,6 +4,7 @@ import com.github.youssfbr.crud.dtos.UserCreateRequestDTO;
 import com.github.youssfbr.crud.dtos.UserResponseDTO;
 import com.github.youssfbr.crud.services.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -38,6 +39,12 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).body(userCreated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
