@@ -1,10 +1,13 @@
 package com.github.youssfbr.crud.entities;
 
+import com.github.youssfbr.crud.dtos.UserCreateRequestDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "tb_user")
 
@@ -18,4 +21,9 @@ public class User {
     private String name;
 
     private Integer age;
+
+    public User(UserCreateRequestDTO userCreateRequestDTO) {
+        this.name = userCreateRequestDTO.getName();
+        this.age = userCreateRequestDTO.getAge();
+    }
 }
